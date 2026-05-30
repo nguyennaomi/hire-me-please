@@ -109,6 +109,13 @@ function handleSecondCommand(cmd) {
   if (waitingForSecondAnswer) {
     if (cmd.toLowerCase() === "yes") {
       print("PLEASE PLEASE PLEASE HIRE ME!!!!");
+      
+      const img = document.createElement("img");
+      img.src = "images/beggar-emoji.png";
+      img.style.maxWidth = "500px";
+      img.style.marginTop = "10px";
+	
+      terminal.appendChild(img);
     }
     else {
       print("Please email me naominguyen612@gmail.com to display your discontent because I am truly sorry.")
