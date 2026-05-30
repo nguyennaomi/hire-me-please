@@ -38,6 +38,7 @@
         }
     </style>
 </head>
+
 <body>
 
 <div id="terminal"></div>
@@ -61,13 +62,12 @@ function createPrompt() {
 
     const prompt = document.createElement("span");
     prompt.className = "prompt";
-    prompt.textContent = "naomi@hire-me-please-terminal:~$";
+    prompt.textContent = "naomi@hire-me:~$";
 
     const input = document.createElement("input");
 
     line.appendChild(prompt);
     line.appendChild(input);
-
     terminal.appendChild(line);
 
     input.focus();
@@ -77,17 +77,34 @@ function createPrompt() {
         if (e.key !== "Enter") return;
 
         const command = input.value.trim();
-
         input.disabled = true;
 
-        handleCommand(command);
+        print("> " + command);
+
+        // =========================
+        // ROUTING FIX (IMPORTANT)
+        // =========================
+
+        if (waitingForSecondAnswer) {
+            handleSecondCommand(command);
+        }
+        else if (waitingForAnswer) {
+            if (command.toLowerCase() === "yes") {
+                askSecondQuestion();
+            } else {
+                print("WRONG ANSWER PLEASE RETURN THIS WEBSITE!!!!!");
+            }
+            waitingForAnswer = false;
+        }
+        else {
+            handleCommand(command);
+        }
 
         createPrompt();
     });
 }
 
 function startup() {
-
     print("================================");
     print("     Hire Me Please v1.0");
     print("================================");
@@ -107,7 +124,6 @@ function askSecondQuestion() {
 }
 
 function handleSecondCommand(cmd) {
-    if (!waitingForSecondAnswer) return;
 
     if (cmd.toLowerCase() === "yes") {
         print("PLEASE PLEASE PLEASE HIRE ME!!!!");
@@ -127,27 +143,16 @@ function handleSecondCommand(cmd) {
 
 function handleCommand(cmd) {
 
-    if (waitingForAnswer) {
-
-        if (cmd.toLowerCase() === "yes") {
-            askSecondQuestion();
-        } else {
-            print("WRONG ANSWER PLEASE RETURN THIS WEBSITE!!!!!");
-        }
-
-        waitingForAnswer = false;
-        return;
-    }
     switch(cmd.toLowerCase()) {
 
         case "help":
             print("");
             print("Available Commands:");
             print("------------------");
-            print("help      Show commands");
-            print("start     Please Please PLEASE JUST HIRE ME");
-            print("clear     Clear terminal");
-            print("about     About terminal");
+            print("help");
+            print("start");
+            print("clear");
+            print("about");
             print("");
             break;
 
