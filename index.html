@@ -102,25 +102,27 @@ function askQuestion() {
 }
 
 function askSecondQuestion() {
-  print("Did you like me after the interview? (yes/no)");
-  waitingForSecondAnswer = true;
+    print("Did you like me after the interview? (yes/no)");
+    waitingForSecondAnswer = true;
 }
 
 function handleSecondCommand(cmd) {
-  if (waitingForSecondAnswer) {
+    if (!waitingForSecondAnswer) return;
+
     if (cmd.toLowerCase() === "yes") {
-      print("PLEASE PLEASE PLEASE HIRE ME!!!!");
-      
-      const img = document.createElement("img");
-      img.src = "images/beggar-emoji.png";
-      img.style.maxWidth = "500px";
-      img.style.marginTop = "10px";
-	
-      terminal.appendChild(img);
+        print("PLEASE PLEASE PLEASE HIRE ME!!!!");
+
+        const img = document.createElement("img");
+        img.src = "images/beggar-emoji.png";
+        img.style.maxWidth = "500px";
+        img.style.marginTop = "10px";
+
+        terminal.appendChild(img);
+    } else {
+        print("Please email me at naominguyen612@gmail.com — I am truly sorry.");
     }
-    else {
-      print("Please email me naominguyen612@gmail.com to display your discontent because I am truly sorry.");
-	}
+
+    waitingForSecondAnswer = false;
 }
 
 function handleCommand(cmd) {
@@ -129,14 +131,13 @@ function handleCommand(cmd) {
 
         if (cmd.toLowerCase() === "yes") {
             askSecondQuestion();
-        }
-        else {
+        } else {
             print("WRONG ANSWER PLEASE RETURN THIS WEBSITE!!!!!");
         }
+
         waitingForAnswer = false;
         return;
     }
-
     switch(cmd.toLowerCase()) {
 
         case "help":
